@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+  <title>Animations</title>
+  <style>
+    body {
+      background: #fff;
+      padding: 1em;
+      margin: 0;
+    }
+    .slide {
+      width: 200px;
+      height: 100px;
+      margin: 1em;
+      padding: 1em;
+      background: #999;
+      font-size: 2em;
+      opacity: 1;
+      position: relative;
+      left: 0;
+    }
+    .moved {
+      transition: transform 2000ms ease-in-out, opacity 2000ms ease-in-out;
+      transform: translateX(200px);
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide bad">I will move inefficiently using JS</div>
+  <div class="slide good">I will move efficiently using CSS</div>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script>
+    $(function() {
+      // This jQuery animation uses JavaScript to continuously change the
+      // CSS values, which results in constant repaints.
+      $('.bad').click(function() {
+        $('.bad').animate({left: '+=200'}, {duration: 2000, queue: false});
+        $('.bad').animate({opacity: '0'}, {duration: 2000, queue: false});
+      });
+
+      // This jQuery code simply adds a class which triggers a CSS tranform.
+      // The transform is managed by the GPU so it's much more efficient.
+      $('.good').click(function() {
+        $('.good').toggleClass('moved');
+      });
+    });
+  </script>
+</body>
+</html>
